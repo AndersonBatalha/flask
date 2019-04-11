@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block title %}
+    Home
+{% endblock %}
+
+{% block content %}
+    {% for message in flashed_messages %}
+        <div class="alert alert-warning">
+            {{ message }}
+        </div>
+    {% endfor %}
+    <div class="container">
+        <h1>Olá
+            {% if name %}
+                {{ name }}!
+            {% else %}
+                Estranho!
+            {% endif %}
+        </h1>
+
+        {{ wtf.quick_form(form) }}
+    </div>
+{% endblock %}
+
