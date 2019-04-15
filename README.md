@@ -1,4 +1,4 @@
-# flask-exemplo
+# flask
 #### Aplicação construída com o framework Flask
 
 1.  Instalar o pip, gerenciador de pacotes do Python
