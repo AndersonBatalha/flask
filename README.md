@@ -1,5 +1,5 @@
-# flask
-#### Aplicação construída com o framework Flask
+# Flask
+#### Exemplo de aplicação construída com o framework Flask
 
 1.  Instalar o pip, gerenciador de pacotes do Python
 
@@ -90,3 +90,61 @@
 	2. Flask
 	
 		    $ flask --version
+
+6. Flask
+  
+    1. Instalação
+    
+            $ workon env
+            $ pip install flask flask_bootstrap wtforms
+            $ pip freeze > requirements.txt
+    
+    2. Criar projeto
+    
+        1. Criar arquivo main.py
+        2. Configurações iniciais
+        
+                from flask import Flask
+                app = Flask(__name__)
+                
+        3. Roteamento
+        
+                @app.route('url')
+                
+           1. Passagem de parâmetros
+                
+                    @app.route('/index/<nome>')
+                    @app.route('/index/<str:nome>')
+                    @app.route('/index/<int: id>')
+    
+        4. 
+
+6. Banco de dados 
+
+    1. Instalação
+
+            $ pip install flask_sqlalchemy flask_migrate
+
+    2. Configurações
+            
+            app = Flask(__name__)
+
+            app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + os.path.join(BASE_DIR, 'data.sqlite')
+            app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+            
+            db = SQLAlchemy(app)
+            migrate = Migrate(app=app, db=db)
+
+    3. Shell    
+    
+            \>>> from main import Role
+            
+            \>>> from main import db
+            
+            \>>> admin = Role(name='Administrador')
+            
+            \>>> admin
+            <Role 'Administrador'>
+            \>>> db.session.add(admin)
+            \>>> db.session.commit()
+
