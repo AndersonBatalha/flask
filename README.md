@@ -117,9 +117,7 @@
                     @app.route('/index/<str:nome>')
                     @app.route('/index/<int: id>')
     
-        4. 
-
-6. Banco de dados 
+7. Banco de dados 
 
     1. Instalação
 
@@ -137,14 +135,14 @@
 
     3. Shell    
     
-            \>>> from main import Role
+            >>> from main import Role
             
-            \>>> from main import db
+            >>> from main import db
             
-            \>>> admin = Role(name='Administrador')
+            >>> admin = Role(name='Administrador')
             
-            \>>> admin
+            >>> admin
             <Role 'Administrador'>
-            \>>> db.session.add(admin)
-            \>>> db.session.commit()
+            >>> db.session.add(admin)
+            >>> db.session.commit()
 
