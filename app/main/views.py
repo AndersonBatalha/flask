@@ -14,10 +14,9 @@ def index():
         return redirect(url_for('.index'))
     return render_template('index.html', form=form, name=session.get('name'))
 
-@login_required
 @main.route('/user/<name>')
+@login_required
 def user(name):
-        # return render_template('auth/login.html', name=name)
     return render_template('user.html', name=name)
 
 @main.route('/navegador')
