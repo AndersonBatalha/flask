@@ -12,15 +12,25 @@
         </div>
     {% endfor %}
     <div class="container">
-        <h1>Olá
-            {% if name %}
-                {{ name }}!
-            {% else %}
-                Estranho!
-            {% endif %}
-        </h1>
+        <div class="row justify-content-center mt-4">
+            <div class="col-sm-12 col-md-10 col-xs-8 col-lg-8">
+                <h1>Olá
+                    {% if name %}
+                        {{ name }}!
+                    {% else %}
+                        Estranho!
+                    {% endif %}
+                </h1>
 
-        {{ wtf.quick_form(form) }}
+                <form method="POST" role="form">
+                    {{ form.csrf_token }}
+
+                    {{ wtf.form_field(form.name, class='form-control', placeholder=form.name.label.text) }}
+                    {{ wtf.form_field(form.submit, class='btn btn-primary btn-block') }}
+                </form>
+            </div>
+        </div>
+
     </div>
 {% endblock %}
 
