@@ -117,6 +117,18 @@
                     @app.route('/index/<str:nome>')
                     @app.route('/index/<int: id>')
     
+    3. Executando
+                
+                $ export FLASK_APP=main.py FLASK_DEBUG=1 FLASK_ENV=development
+
+--------------
+
+                $ flask run
+                
+  OU
+                
+                $ flask run --host=seu_ip
+                   
 7. Banco de dados 
 
     1. Instalação
@@ -146,3 +158,11 @@
             >>> db.session.add(admin)
             >>> db.session.commit()
 
+    4. Migrações
+    
+            $ flask db init
+            
+            $ flask db migrate
+    
+            $ flask db upgrade
+    
