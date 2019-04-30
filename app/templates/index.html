@@ -10,8 +10,8 @@
         <div class="row justify-content-center mt-4">
             <div class="col-sm-12 col-md-10 col-xs-8 col-lg-8">
                 <h1>Olá
-                    {% if name %}
-                        {{ name }}!
+                    {% if current_user.username %}
+                        {{ current_user.username }}!
                     {% else %}
                         Estranho!
                     {% endif %}

@@ -16,14 +16,32 @@
                 <li class="nav-item">
                     <a class="nav-link" href="/">Home</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/user/mundo">User</a>
-                </li>
             </ul>
-            <form class="form-inline my-2 my-lg-0">
-                <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-                <button class="btn btn-primary my-2 my-sm-0" type="submit">Search</button>
-            </form>
+
+            {% if current_user.username %}
+                <div class="dropdown">
+                    <a class="dropdown-toggle" href="#" role="button"
+                     id="link" data-toggle="dropdown" aria-haspopup="true"
+                     aria-expanded="false">
+                        <ion-icon name="person" class="mr-2"></ion-icon>{{ current_user.username }}
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="link">
+                        <a class="dropdown-item" href="/logout">Logout</a>
+                    </div>
+                </div>
+            {% else %}
+                <div class="dropdown">
+                    <a class="dropdown-toggle" href="#" role="button"
+                     id="link" data-toggle="dropdown" aria-haspopup="true"
+                     aria-expanded="false">
+                        <ion-icon name="person" class="mr-2"></ion-icon>Anônimo
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="link">
+                        <a class="dropdown-item" href="/login">Login</a>
+                        <a class="dropdown-item" href="/register">Cadastre-se</a>
+                    </div>
+                </div>
+            {% endif %}
         </div>
     </nav>
 {% endblock %}
@@ -35,3 +53,8 @@
         </div>
     {% endfor %}
 {% endblock content %}
+
+{% block scripts %}
+    {{ super() }}
+    <script src="https://unpkg.com/ionicons@4.5.5/dist/ionicons.js"></script>
+{% endblock %}
