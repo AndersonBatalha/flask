@@ -4,21 +4,21 @@ from wtforms.validators import DataRequired, Length, EqualTo, ValidationError
 from ..models import User
 
 class LoginForm(FlaskForm):
-    username = StringField('User', validators = [ DataRequired(), Length(min=4, max=50) ])
-    password = PasswordField('Password', validators = [ DataRequired(), Length(min=5, max=30) ])
+    username = StringField('User', validators = [ DataRequired(), Length(1, 64) ])
+    password = PasswordField('Password', validators = [ DataRequired() ])
     submit = SubmitField('Login')
 
 class RegisterForm(FlaskForm):
     username = StringField('Usuário', validators=[
         DataRequired(),
-        Length(min=1, max=64)
+        Length(1, 64)
     ])
     password = PasswordField('Senha', validators=[
-        DataRequired(),
+        DataRequired()
     ])
     password2 = PasswordField('Confirmar senha', validators=[
         DataRequired(),
-        EqualTo(password, message='Senhas não conferem')
+        EqualTo('password', message='Senhas não conferem')
     ])
     register = SubmitField('Register')
 

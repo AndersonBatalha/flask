@@ -12,14 +12,14 @@ def register():
     if form.validate_on_submit():
         user = User(
             username=form.username.data,
-            password=form.password.data,
+            password=form.password.data
         )
         db.session.add(user)
         db.session.commit()
 
-        flash("Usuário registrado")
+        flash("Usuário registrado!")
 
-        return redirect('main.index')
+        return redirect(url_for('auth.login'))
     return render_template('auth/register.html', form=form)
 
 @auth.route('/login', methods=["GET", "POST"])
@@ -35,4 +35,12 @@ def login():
             return redirect(next)
         flash('Invalid username or password')
     return render_template('auth/login.html', form=form)
+
+@login_required
+@auth.route('/logout')
+def logout():
+    logout_user()
+    flash("A sessão atual foi encerrada")
+    return redirect(url_for('main.index'))
+
 
