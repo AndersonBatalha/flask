@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block title %}
+    Register
+{% endblock %}
+
+{% block content %}
+    <div class="container-fluid">
+        <div class="row justify-content-center">
+            <div class="col-sm-12 col-md-6 col-xs-4 col-lg-4">
+                <h1 class="my-4">Registrar novo usuário</h1>
+
+                <form method="POST" role="form">
+                    {{ form.csrf_token }}
+
+                    {{ wtf.form_field(form.username, class='form-control', placeholder=form.username.label.text) }}
+                    {{ wtf.form_field(form.password, class='form-control', placeholder=form.password.label.text) }}
+                    {{ wtf.form_field(form.password2, class='form-control', placeholder=form.password.label.text) }}
+                    {{ wtf.form_field(form.register, class='btn btn-block btn-primary') }}
+                </form>
+                <a href="{{ url_for('auth.login') }}">Login</a>
+
+            </div>
+        </div>
+    </div>
+{% endblock %}

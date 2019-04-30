@@ -30,6 +30,9 @@
                     {{ wtf.form_field(form.password, class='form-control', placeholder=form.password.label.text) }}
                     {{ wtf.form_field(form.submit, class='btn btn-block btn-primary') }}
                 </form>
+                <p>
+                    <a href="{{ url_for('auth.register') }}">Criar conta</a>
+                </p>
 
             </div>
         </div>

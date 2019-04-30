@@ -28,6 +28,10 @@
     </nav>
 {% endblock %}
 
-{% block page_content %}
-
-{% endblock page_content %}
+{% block content %}
+    {% for message in flashed_messages %}
+        <div class="alert alert-danger" role="alert">
+            {{ message }}
+        </div>
+    {% endfor %}
+{% endblock content %}
