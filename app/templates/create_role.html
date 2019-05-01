@@ -2,33 +2,29 @@
 {% import "bootstrap/wtf.html" as wtf %}
 
 {% block title %}
-    Login
+    Criar papel
 {% endblock %}
 
 {% block content %}
     <div class="container-fluid">
         <div class="row justify-content-center">
-            <div class="col-sm-12 col-md-6 col-xs-4 col-lg-4">
+            <div class="col-sm-12 col-md-8 col-xs-5 col-lg-5">
 
                 {% for message in get_flashed_messages() %}
                     <div class="alert alert-danger" role="alert">
-                        {{ message }}
+                        {{ message }} {{ message.category }}
                     </div>
                 {% endfor %}
 
-                <h1 class="my-4">Login</h1>
+                <h1 class="my-4">Criar papel para usuário</h1>
 
                 <form method="POST" role="form">
                     {{ form.csrf_token }}
 
-                    {{ wtf.form_field(form.username, class='form-control', placeholder=form.username.label.text) }}
-                    {{ wtf.form_field(form.password, class='form-control', placeholder=form.password.label.text) }}
+                    {{ wtf.form_field(form.role_name, class='form-control', placeholder=form
+                    .role_name.label.text) }}
                     {{ wtf.form_field(form.submit, class='btn btn-block btn-primary') }}
                 </form>
-                <h5 class="text-center p-4 font-weight-bold">
-                    Não possui conta? <a href="{{ url_for('auth.register') }}">Cadastre-se</a>
-                </h5>
-
             </div>
         </div>
     </div>

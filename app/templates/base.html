@@ -14,7 +14,12 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item">
-                    <a class="nav-link" href="/">Home</a>
+                    {% if current_user.username %}
+                        <a class="nav-link" href="/user/{{ current_user.username }}">User</a>
+                    {% endif %}
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/create_role">Cadastrar papel</a>
                 </li>
             </ul>
 
@@ -30,24 +35,15 @@
                     </div>
                 </div>
             {% else %}
-                <div class="dropdown">
-                    <a class="dropdown-toggle" href="#" role="button"
-                     id="link" data-toggle="dropdown" aria-haspopup="true"
-                     aria-expanded="false">
-                        <ion-icon name="person" class="mr-2"></ion-icon>Anônimo
-                    </a>
-                    <div class="dropdown-menu" aria-labelledby="link">
-                        <a class="dropdown-item" href="/login">Login</a>
-                        <a class="dropdown-item" href="/register">Cadastre-se</a>
-                    </div>
-                </div>
+                <a class="nav-link text-dark" href="/login">Login</a>
+                <a class="nav-link text-dark" href="/register">Cadastre-se</a>
             {% endif %}
         </div>
     </nav>
 {% endblock %}
 
 {% block content %}
-    {% for message in flashed_messages %}
+    {% for message in get_flashed_messages() %}
         <div class="alert alert-danger" role="alert">
             {{ message }}
         </div>

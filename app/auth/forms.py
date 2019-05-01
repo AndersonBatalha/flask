@@ -1,7 +1,7 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, SubmitField
+from wtforms import StringField, PasswordField, SubmitField, SelectField
 from wtforms.validators import DataRequired, Length, EqualTo, ValidationError
-from ..models import User
+from ..models import User, Role
 
 class LoginForm(FlaskForm):
     username = StringField('User', validators = [ DataRequired(), Length(1, 64) ])
@@ -20,7 +20,7 @@ class RegisterForm(FlaskForm):
         DataRequired(),
         EqualTo('password', message='Senhas não conferem')
     ])
-    register = SubmitField('Register')
+    register = SubmitField('Cadastrar')
 
     def validate_username(self, field):
         if User.query.filter_by(username=field.data).first():

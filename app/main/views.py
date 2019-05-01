@@ -1,7 +1,10 @@
 from flask import render_template, request, session, url_for, redirect, flash
 from flask_login import login_required
+
+from app.models import Role
 from . import main
-from .forms import NameForm
+from .forms import NameForm, RoleForm
+from app import db
 
 @main.route("/", methods=['GET', 'POST'])
 def index():
@@ -28,3 +31,16 @@ def navegador():
 def page_not_found(e):
     print(e)
     return render_template('404.html'), 404
+
+@main.route('/create_role', methods=["GET", "POST"])
+def create_role():
+    form = RoleForm()
+    if form.validate_on_submit():
+        q = Role.query.filter_by(name=form.role_name.data).first()
+        if q:
+            flash("Papel já cadastrado", category='error')
+        else:
+            role = Role(name=form.role_name.data)
+            db.session.add(role)
+            db.session.commit()
+    return render_template('create_role.html', form=form)
