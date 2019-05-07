@@ -1,9 +1,9 @@
 from flask import render_template, request, session, url_for, redirect, flash
 from flask_login import login_required
 
-from app.models import Role
+from app.models import Role, User
 from . import main
-from .forms import NameForm, RoleForm
+from .forms import NameForm, RoleForm, EditUserForm
 from app import db
 
 @main.route("/", methods=['GET', 'POST'])
@@ -34,6 +34,7 @@ def page_not_found(e):
 
 @main.route('/create_role', methods=["GET", "POST"])
 def create_role():
+    roles = Role.query.all()
     form = RoleForm()
     if form.validate_on_submit():
         q = Role.query.filter_by(name=form.role_name.data).first()
@@ -43,4 +44,25 @@ def create_role():
             role = Role(name=form.role_name.data)
             db.session.add(role)
             db.session.commit()
-    return render_template('create_role.html', form=form)
+            return redirect(url_for('.create_role'))
+    return render_template('create_role.html', form=form, roles=roles)
+
+@main.route('/remove_role/<role>')
+def remove_role(role):
+    q = Role.query.filter_by(name=role).first()
+    db.session.delete(q)
+    db.session.commit()
+    flash('Removido com sucesso!')
+    return redirect(url_for('.create_role'))
+
+@main.route('/edit_user/<user_id>')
+def edit_user(user_id):
+    form = EditUserForm(user_id)
+    return render_template('edit_user.html', form=form, user_id=user_id)
+
+@main.route('/users')
+def users():
+    list_users = User.query.all()
+    if not list_users:
+        flash('Não existem usuários cadastrados!')
+    return render_template('list_users.html', users=list_users)
