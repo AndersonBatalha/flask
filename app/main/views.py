@@ -67,11 +67,11 @@ def edit_user(username):
     u = User.query.filter_by(username=username).first()
     form = EditUserForm(user=u)
     if form.validate_on_submit():
-        if u.username != form.username.data:
-            u.username = form.username.data
-            db.session.add(u)
-            db.session.commit()
-            flash('Alterado com sucesso!')
-            return redirect(url_for('.users'))
+        selected_item = [tuple[1] for tuple in form.role_choices if tuple[0] == form.role.data][0]
+        r = Role.query.filter_by(name=selected_item).first()
+        u.role_id = r.id
+        db.session.add(u)
+        db.session.commit()
+        return redirect(url_for('.users'))
     return render_template('edit_user.html', form=form)
 
