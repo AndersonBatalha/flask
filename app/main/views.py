@@ -55,14 +55,16 @@ def remove_role(role):
     flash('Removido com sucesso!')
     return redirect(url_for('.create_role'))
 
-@main.route('/edit_user/<user_id>')
-def edit_user(user_id):
-    form = EditUserForm(user_id)
-    return render_template('edit_user.html', form=form, user_id=user_id)
-
 @main.route('/users')
 def users():
     list_users = User.query.all()
     if not list_users:
         flash('Não existem usuários cadastrados!')
     return render_template('list_users.html', users=list_users)
+
+@main.route('/edit_user/<username>')
+def edit_user(username):
+    u = User.query.filter_by(username=username).first()
+    form = EditUserForm(user=u)
+    return render_template('edit_user.html', form=form)
+

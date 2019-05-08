@@ -52,5 +52,6 @@ class EditUserForm(FlaskForm):
         self.role_choices = [
             (role.id, role.name) for role in Role.query.order_by(Role.name).all()
         ]
+        self.role.choices = self.role_choices
         self.user = user
-        self.username.data = user.username
+        self.username.data = self.user.username
