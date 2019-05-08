@@ -62,9 +62,16 @@ def users():
         flash('Não existem usuários cadastrados!')
     return render_template('list_users.html', users=list_users)
 
-@main.route('/edit_user/<username>')
+@main.route('/edit_user/<username>', methods=["GET", "POST"])
 def edit_user(username):
     u = User.query.filter_by(username=username).first()
     form = EditUserForm(user=u)
+    if form.validate_on_submit():
+        if u.username != form.username.data:
+            u.username = form.username.data
+            db.session.add(u)
+            db.session.commit()
+            flash('Alterado com sucesso!')
+            return redirect(url_for('.users'))
     return render_template('edit_user.html', form=form)
 

@@ -13,12 +13,17 @@
 
         <div class="row justify-content-center my-4">
             <div class="col-sm-12 col-md-10 col-xs-8 col-lg-8 mx-4">
-                <div class="form-group">
-                    {{ wtf.form_field(form.username, form_type='inline', class='form-control') }}
-                    {{ wtf.form_field(form.role, form_type='inline', class='form-control') }}
+                <form method="POST" role="form">
+                    {{ form.csrf_token }}
+                    <div class="form-group">
+                        {{ wtf.form_field(form.username, class='form-control') }}
+                    </div>
+                    <div class="form-group">
+                        {{ wtf.form_field(form.role, class='form-control') }}
+                    </div>
                     {{ wtf.form_field(form.submit, form_type='inline', class='btn btn-lg
-                    btn-block btn-primary mt-3') }}
-                </div>
+                        btn-block btn-primary mt-3') }}
+                </form>
             </div>
         </div>
     </div>
