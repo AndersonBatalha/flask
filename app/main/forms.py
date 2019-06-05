@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, SubmitField, SelectField
+from wtforms import StringField, SubmitField, SelectField, TextAreaField
 from wtforms.validators import DataRequired
 
 from app.models import Role
@@ -37,6 +37,14 @@ FileRequired()
 class NameForm(FlaskForm):
     name = StringField('Qual o seu nome?', validators=[ DataRequired() ])
     submit = SubmitField('Enviar')
+
+class PostForm(FlaskForm):
+    body = TextAreaField('O que você está pensando?',
+                         validators=[
+                             DataRequired()
+                         ])
+    submit = SubmitField('Enviar')
+
 
 class RoleForm(FlaskForm):
     role_name = StringField('Role', validators=[ DataRequired() ])

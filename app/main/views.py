@@ -1,21 +1,25 @@
 from flask import render_template, request, session, url_for, redirect, flash
-from flask_login import login_required
+from flask_login import login_required, current_user
 
-from app.models import Role, User
+from app.models import Role, User, Permission, Post
 from . import main
-from .forms import NameForm, RoleForm, EditUserForm
+from .forms import NameForm, RoleForm, EditUserForm, PostForm
 from app import db
 
 @main.route("/", methods=['GET', 'POST'])
 def index():
-    form = NameForm()
-    if form.validate_on_submit():
-        nome_anterior = session.get('name')
-        if nome_anterior is not None and nome_anterior != form.name.data:
-            flash('Parece que você alterou o nome!')
-        session['name'] = form.name.data
+    form = PostForm()
+    if current_user.has_permission(Permission.WRITE) and form.validate_on_submit():
+        post = Post(
+            body=form.body.data,
+            author=current_user._get_current_object()
+        )
+        db.session.add(post)
+        db.session.commit()
         return redirect(url_for('.index'))
-    return render_template('index.html', form=form, name=session.get('name'))
+    posts = Post.query.order_by(Post.timestamp.desc()).all()
+
+    return render_template('index.html', form=form, posts=posts)
 
 @main.route('/user/<name>')
 @login_required
