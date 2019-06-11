@@ -1,8 +1,8 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, SubmitField, SelectField, TextAreaField
-from wtforms.validators import DataRequired
+from wtforms.validators import DataRequired, Length, ValidationError
 
-from app.models import Role
+from app.models import Role, User
 
 """
 Tipos de dados
@@ -63,3 +63,27 @@ class EditUserForm(FlaskForm):
         self.role.choices = self.role_choices
         self.user = user
         self.username.data = self.user.username
+
+class EditProfileAdminForm(FlaskForm):
+    username = StringField('Usuário', validators=[
+        DataRequired(), Length(1,64)
+    ])
+    role = SelectField("Função", coerce=int)
+    name = StringField("Nome completo", validators=[
+        Length(1,64)
+    ])
+    about_me = TextAreaField("Sobre mim")
+    submit = SubmitField("Enviar")
+
+    def __init__(self, user, *args, **kwargs):
+        super(EditProfileAdminForm, self).__init__(*args, **kwargs)
+        self.role.choices = [
+            (role.id, role.name) for role in Role.query.order_by(Role.name).all()
+        ]
+        self.user = user
+
+    def validate_username(self, field):
+        if field.data != self.user.username and \
+                User.query.filter_by(username=field.data).first():
+            raise ValidationError('Usuário já existe!')
+

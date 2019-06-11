@@ -1,4 +1,4 @@
-from flask import render_template, request, session, url_for, redirect, flash
+from flask import render_template, request, url_for, redirect, flash
 from flask_login import login_required, current_user
 
 from app.models import Role, User, Permission, Post
@@ -24,7 +24,8 @@ def index():
 @main.route('/user/<name>')
 @login_required
 def user(name):
-    return render_template('user.html', name=name)
+    user = User.query.filter_by(username=name).first_or_404()
+    return render_template('user.html', name=name, user=user)
 
 @main.route('/navegador')
 def navegador():
@@ -60,6 +61,7 @@ def remove_role(role):
     return redirect(url_for('.create_role'))
 
 @main.route('/users')
+@login_required
 def users():
     list_users = User.query.all()
     if not list_users:
@@ -79,3 +81,24 @@ def edit_user(username):
         return redirect(url_for('.users'))
     return render_template('edit_user.html', form=form)
 
+@main.route('/followers/<username>')
+def followers(username):
+    user = User.query.filter(username=username).first()
+    if user is None:
+        return 'User invalid'
+    follows = user.followers.all()
+    return render_template('followers.html', username=username, followers=follows)
+
+
+@main.route('/follow/<username>')
+def follow(username):
+    user = User.query.filter(username=username).first()
+    if user is None:
+        flash("Invalid user")
+        return redirect(url_for('.index'))
+    if current_user.is_following(user):
+        flash('Você já está seguindo esse usuário')
+        return redirect(url_for('.index'))
+    current_user.follow(user)
+    flash('Agora você está seguindo esse usuário')
+    return redirect(url_for('user', username=username))
